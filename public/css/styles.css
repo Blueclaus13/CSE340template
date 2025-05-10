@@ -4,3 +4,194 @@
 *:after {
   box-sizing: border-box;
 }
+html {
+  background-image: url("../images/site/checkerboard.jpg");
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  background-color:white;
+  width: 85%;
+  margin: 1% auto;
+  padding: 1%;
+  border-radius: 1%;
+  border-style: solid;
+  border-width: thick;
+  border-color: rgb(29, 147, 190);
+}
+h3, h2 {
+  margin: 0;
+}
+.siteName a {
+  font-size: xx-large;
+  font-weight: bolder;
+  text-decoration: none;
+  color: black;
+  
+}
+#tools a{
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+#tools a:hover {
+  color: rgb(25, 63, 233);
+  font-weight: bold;
+}
+header {
+  font-family: 'Open Sans', sans-serif;
+  display: flex;
+  justify-content: space-between;
+}
+#hero-container{
+  height: 300px;
+}
+#hero {
+  background-image: url("../images/vehicles/delorean.jpg");
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  position: relative;
+}
+
+#specs {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.565);
+  color: rgb(29, 190, 190);
+  font-size:medium;
+  top: 10%;
+  left: 10%;
+  margin: auto;
+  width: 25%;
+}
+
+#specs a {
+  background-color: rgba(255, 255, 255, 0.2);
+  text-align: start;
+}
+
+#own {
+  width: 75%;
+  margin-top: 1rem;
+  /* transform: translateX(15%); */
+ 
+}
+
+nav > ul{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  list-style-type: none;
+  background-color: black;
+  color: white;
+  padding: 2%;
+}
+nav li{
+  text-decoration: none;
+  color: azure;
+  cursor: pointer;
+}
+nav li:hover {
+  color: rgb(29, 190, 190);
+}
+#upgrade-review {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 5% 3%;
+  padding-bottom: 1rem;
+}
+#upgrades, #reviews {
+  padding-top: 16px;
+}
+#reviews {
+  grid-column: 2;
+}
+#upgrades {
+  grid-row: 1;
+}
+#reviews-list {
+  display: grid;
+  grid-row: 2/3;
+  gap: 20% 0%;
+  margin-top: 0;
+  padding: 0 5% ;
+}
+#upgrades-container{
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 5% 5%;
+  margin-top: 2%;
+  
+}
+ .item{
+  background-color: rgb(28, 131, 204);
+  width: 160px;
+  justify-self: center;
+  align-self: center;
+  text-align: center;
+ }
+.item > img {
+  align-self: center;
+  justify-self: center;
+  margin: 3%;
+  height: 70px;
+} 
+div a {
+  text-align: center;
+  background-color: white;
+  width: 100%;
+  display: block;
+}
+
+footer {
+  padding-top: 1rem;
+}
+
+@media screen and (max-width: 750px) {
+  html{
+    background: #ffff;
+  }
+  h3, h2 {
+    font-size: 90%;
+  }
+  h2 {
+    font-weight: bolder;
+    font-size: 1rem;
+  }
+  body {
+    background-color:white;
+    border-radius: 0;
+    width: 100%;
+    margin: auto;
+    border-style: none;
+    padding: .5em;
+  }
+  #specs {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.565);
+    color: rgb(29, 190, 190);
+    font-size:medium;
+    top: 0%;
+    left: 0%;
+    margin: auto;
+    width: 30%;
+  }
+  #upgrade-review {
+    grid-template-columns: 1fr;
+  }
+  #upgrades{
+    grid-column: 1;
+    grid-row: 2;
+  }
+  #reviews{
+    grid-column: 1;
+    grid-row: 1;
+  }
+  #reviews-list {
+    gap: 7% 0%;
+    margin-top: 0;
+    margin-bottom: 10%;
+    padding: 0 5% ;
+  }
+}
