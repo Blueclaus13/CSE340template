@@ -88,13 +88,64 @@ nav > ul{
   padding: 2%;
 }
 nav li{
-  text-decoration: none;
   color: azure;
   cursor: pointer;
+  background-color: black;
 }
 nav li:hover {
   color: rgb(29, 190, 190);
 }
+
+li a {
+  text-decoration: none;
+  color: white;
+}
+li a:hover {
+  color: rgb(29, 190, 190);
+}
+#inv-display {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-basis:auto;
+}
+#inv-display li {
+  /* border: 1px solid black; */
+  list-style: none;
+  height: 100%;
+  margin: 1rem;
+  /* border-radius: 2%; */
+  text-align: center;
+}
+#inv-display li a img {
+  height: 150px ;
+  max-width: 100%;
+  border-radius: 2%;
+  margin: 1rem;
+}
+.namePrice a{
+  text-decoration: none;
+  color: black;
+  text-align: center;
+}
+#details-display {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 10px;
+}
+#details-display img {
+  width:100%;
+}
+#details-display-error {
+  background-color: rgba(8, 8, 8, 0.082);
+  padding: .8%;
+  text-align: center;
+}
+.error-img img{
+  max-width: 500px;
+  width:100%;
+}
+
 #upgrade-review {
   display: grid;
   grid-template-columns: repeat(2,1fr);
@@ -137,7 +188,7 @@ nav li:hover {
   margin: 3%;
   height: 70px;
 } 
-div a {
+.item a {
   text-align: center;
   background-color: white;
   width: 100%;
@@ -177,6 +228,10 @@ footer {
     margin: auto;
     width: 30%;
   }
+  #details-display {
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
   #upgrade-review {
     grid-template-columns: 1fr;
   }

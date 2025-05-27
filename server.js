@@ -28,6 +28,7 @@ app.set("layout", "./layouts/layout");
 app.use(static);
 //Index route
 app.get("/", utilities.handleErrors(baseController.buildHome));
+//Inventory route
 app.use("/inv", inventoryRoute);
 
 // File Not Found Route - must be last route in list
