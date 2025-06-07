@@ -1,0 +1,44 @@
+<!-- if statement, if title then display title, else redirect -->
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+        res.redirect('/')
+} %>
+<%- messages() %>
+
+<% if (errors) { %>
+    <ul class="notice">
+    <% errors.array().forEach(error => { %>
+        <% if (error.msg != "Invalid value") { %>
+            <li><%= error.msg %></li>
+        <% } %>
+    <%  }) %>
+    </ul>
+    <% } %>
+    
+<!-- Register Form display -->
+<div class="login-form-container">
+    <form id="registrationForm" action="/account/register" method="post">
+        <h2>All fields are required</h2>
+        
+        <label for="account_firstname" class="register">First name:</label>
+        <input type="text" class="register" name="account_firstname" id="account_firstname" placeholder="Your name" required value="<%= locals.account_firstname %>">
+    
+        <label for="account_lastname" class="register">Last name:</label>
+        <input type="text" class="register" name="account_lastname" id="account_lastname" placeholder="Your last name" required value="<%= locals.account_lastname %>">
+        
+        <label for="account_email" class="register">Email:</label>
+        <input type="email" class="register" name="account_email" id="account_email" placeholder="email@domain.com" required value="<%= locals.account_email %>">
+        
+        <label class="register" for="account_password">Password:</label>
+        <input class="register" type="password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$" name="account_password" id="account_password" placeholder="Password" required>
+        <div id="requirements">
+            <p>Password must be minimum of 12 characters</p>
+            <p>Include 1 capital letter</p> 
+            <p>Include 1 number</p>
+            <p>Include 1 special character</p>
+        </div>
+        <button type="submit">Register</button>
+    </form>
+</div>
+<script src="/js/script.js"></script>

@@ -146,6 +146,82 @@ li a:hover {
   width:100%;
 }
 
+form {
+  padding: 2%;
+  margin: 1% auto;
+  background-color: #00698B;
+  display: flex;
+  align-items:flex-start;
+  justify-items: flex-start;
+  flex-direction: column;
+  border-radius: 3%;
+  box-shadow: 10px 10px 5px lightblue;
+  font-size: large;
+  border: 2px solid grey;
+  width: 50%;
+  color: white;
+}
+#loginFields{
+  display: flex;
+  flex-direction: column;
+  border: none;
+  margin: 1% auto;
+}
+
+label, input, button, span{
+  padding: 3%;
+  border-radius: 2%;
+  border: none;
+}
+button {
+  margin-top: 3%;
+  padding: 3% 12%;
+  color: #00698B;
+  font-weight: bold;
+  background-color: whitesmoke;
+  border-radius: 15px;
+}
+label {
+  padding-left: 0;
+  padding-bottom: 0;
+  font-weight: bold;
+}
+input {
+  width: 200px;
+  border-radius: 5px;
+}
+button:hover, #pswdBtn:hover {
+  cursor:pointer;
+  background-color:  rgb(153, 171, 182);
+  color: yellow;
+}
+button, #no-account {
+  margin-top: 4%;
+  align-self: center;
+}
+#sign-up {
+  color: white;
+}
+#sign-up:hover{
+  color: yellow
+}
+.notice {
+  color: red
+}
+#requirements p{
+  font-size: small;
+  margin: 0;
+  padding: 0;
+}
+#requirements p:not(:first-of-type){
+  padding-left: 10px;
+}
+input:required:invalid, input:focus:invalid {
+border: 2px solid #e62b12;
+}
+input:required:valid {
+border: 2px solid #00bfff;
+}
 #upgrade-review {
   display: grid;
   grid-template-columns: repeat(2,1fr);
