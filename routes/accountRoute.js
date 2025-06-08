@@ -8,12 +8,7 @@ const utilities = require("../utilities");
 router.get("/login",  utilities.handleErrors(accountController.buildLogin));
 router.get("/register",  utilities.handleErrors(accountController.buildRegister));
 // Process the login attempt
-router.post(
-  "/login",
-  (req, res) => {
-    res.status(200).send('login process')
-  }
-)
+router.post("/login", regValidate.loginRules(), regValidate.checkLoginData, utilities.handleErrors(accountController.accountLogin))
 // Process the registration data
 router.post(
   "/register",

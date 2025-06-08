@@ -190,6 +190,9 @@ input {
   width: 200px;
   border-radius: 5px;
 }
+textarea{
+  width: 100%;
+}
 button:hover, #pswdBtn:hover {
   cursor:pointer;
   background-color:  rgb(153, 171, 182);
@@ -216,10 +219,10 @@ button, #no-account {
 #requirements p:not(:first-of-type){
   padding-left: 10px;
 }
-input:required:invalid, input:focus:invalid {
+input:required:invalid, input:focus:invalid, textarea:focus:invalid, textarea:required:invalid{
 border: 2px solid #e62b12;
 }
-input:required:valid {
+input:required:valid, textarea:required:valid {
 border: 2px solid #00bfff;
 }
 #upgrade-review {

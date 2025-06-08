@@ -50,4 +50,41 @@ async function error() {
   }
 }
 
-module.exports = {getClassifications, getInventoryByClassificationId, getCarDetails, error};
+async function addClassification(classification_name) {
+  try {
+    const data = await pool.query(
+
+      `INSERT INTO public.classification (classification_name) VALUES ($1)`,
+      [classification_name]
+    )
+    return "Adding classification was succesful"
+  } catch (error) {
+    console.error("Addingclassification error " + error)
+  }
+}
+
+async function checkExistingClassification(classification_name){
+  try {
+    const sql = "SELECT * FROM public.classification WHERE classification_name = $1"
+    const classification = await pool.query(sql, [classification_name])
+    return classification.rowCount
+  } catch (error) {
+    return error.message
+  }
+}
+
+async function addVehicle(classification_id, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color) {
+  try {
+    const data = await pool.query(
+
+      `INSERT INTO public.inventory (classification_id, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+      [classification_id, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color]
+    )
+    return "Adding classification was succesful"
+  } catch (error) {
+    console.error("Addingclassification error " + error)
+  }
+}
+
+module.exports = {getClassifications, getInventoryByClassificationId, getCarDetails, error, addClassification, checkExistingClassification, addVehicle};
