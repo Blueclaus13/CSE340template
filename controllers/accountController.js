@@ -1,6 +1,8 @@
 const utilities = require("../utilities/")
 const accountModel = require("../models/account-model")
 const bcrypt = require("bcryptjs")
+const jwt = require("jsonwebtoken")
+require("dotenv").config()
 
 /* ****************************************
 *  Deliver login view
@@ -111,4 +113,13 @@ async function accountLogin(req, res) {
 	}
 }
 
-module.exports = { buildLogin, buildRegister, registerAccount }
+async function accountManagment(req, res, next) {
+	let nav = await utilities.getNav()
+	res.render("account/account-management", {
+		title: "Account  Management",
+		nav,
+		errors: null,
+    })
+}
+
+module.exports = { buildLogin, buildRegister, registerAccount, accountManagment, accountLogin }

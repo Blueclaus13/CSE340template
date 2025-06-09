@@ -16,5 +16,7 @@ router.post(
   regValidate.checkRegData,
   utilities.handleErrors(accountController.registerAccount)
 )
+// Route to account view once loggin
+router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.accountManagment));
 
 module.exports = router;
