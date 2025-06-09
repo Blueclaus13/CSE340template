@@ -1,0 +1,45 @@
+<!-- if statement, if title then display title, else redirect -->
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+        res.redirect('/')
+    } %>
+    
+    <!-- message -->
+    <%- messages() %>
+
+<% if (errors) { %>
+    <ul class="notice">
+    <% errors.array().forEach(error => { %>
+        <% if (error.msg != "Invalid value") { %>
+            <li><%= error.msg %></li>
+        <% } %>
+    <%  }) %>
+    </ul>
+    <% } %>
+    
+<!-- Inventory items display -->
+<div id="delete-inventory">
+    <form id="deleteForm" action="/inv/delete" method="post">
+        <p>Confirm Deletion - The delete is permanent</p>
+
+        <label for="inv_make">Make</label>
+        <input type="text" name="inv_make" id="inv_make" pattern="^[A-Z][a-z]{2,15}$" placeholder="Min of 3 characters" required value="<%= locals.inv_make %>" readonly>
+        
+        <label for="inv_model">Model</label>
+        <input type="text" name="inv_model" id="inv_model" pattern="^[A-Z][a-z]{2,15}$" placeholder="Min of 3 characters" required value="<%= locals.inv_model %>" readonly>
+        
+        <label for="inv_price">Price</label>
+        <input type="text" name="inv_price" id="inv_price" pattern="^[^,a-zA-Z]+[0-9\.0-9]{1,7}$" placeholder="Decimal or integer" required value="<%= locals.inv_price %>" readonly>
+        
+        <label for="inv_year">Year</label>
+        <input type="text" name="inv_year" id="inv_year" pattern="^[0-9]{4}$" placeholder="4-digit year" required value="<%= locals.inv_year %>" readonly>
+
+        <button type="submit" >Delete</button>
+        
+        <input type="hidden" name="inv_id"
+        <% if(locals.inv_id) {%> value="<%= locals.inv_id %>"
+        <% } %>>
+        
+    </form>
+</div>

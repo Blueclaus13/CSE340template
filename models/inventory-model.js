@@ -22,6 +22,7 @@ async function getInventoryByClassificationId(classification_id) {
     return data.rows;
   } catch (error) {
     console.error("getclassificationsbyid error " + error);
+    throw error; 
   }
 };
 
@@ -87,4 +88,17 @@ async function addVehicle(classification_id, inv_make, inv_model, inv_descriptio
   }
 }
 
-module.exports = {getClassifications, getInventoryByClassificationId, getCarDetails, error, addClassification, checkExistingClassification, addVehicle};
+/* ***************************
+ *  Update inventory Data
+ * ************************** */
+async function deleteVehicle(inv_id) {
+  try {
+    const sql = 'DELETE FROM public.inventory WHERE inv_id = $1'
+    const data = await pool.query(sql, [inv_id])
+    return data
+  } catch (error) {
+    new Error("Delete Inventory error")
+  }
+}
+
+module.exports = {getClassifications, getInventoryByClassificationId, getCarDetails, error, addClassification, checkExistingClassification, addVehicle, deleteVehicle};

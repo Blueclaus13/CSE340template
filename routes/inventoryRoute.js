@@ -27,3 +27,12 @@ router.get("/add_vehicle", utilities.handleErrors(invController.addInventory));
 // Route to build add-vehicle
 router.post("/add_vehicle", vehicleValidate.vehicleRules(), vehicleValidate.checkVehicleData, utilities.handleErrors(invController.addNewVehicle));
 module.exports = router;
+
+// Route to JSON (injet table to innerHTML)
+router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
+
+// Route to delete (vehicle) information
+router.get("/delete/:inv_id", utilities.handleErrors(invController.deleteView))
+
+//Route post delete Item
+router.post("/delete/", utilities.handleErrors(invController.deleteItem))

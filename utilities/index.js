@@ -178,4 +178,26 @@ Util.checkLogin = (req, res, next) => {
   }
  }
 
+ /* ****************************************
+* Middleware give AuthZ to inventory
+**************************************** */
+Util.checkAcountType = (req, res, next) => {
+  if (req.cookies.jwt) {
+    jwt.verify(
+    req.cookies.jwt,
+    process.env.ACCESS_TOKEN_SECRET,
+    function (err, accountData) {
+    	res.locals.accountData = accountData
+		if (accountData.account_type == "Admin" || accountData.account_type == "Employee" ) {
+			// if (accountData.account_type == "Admin"){
+			// 	res.locals.authZ = 1
+			// }
+			next()
+		} else {
+        	return res.redirect("/account/login")
+    	}
+	})
+  } 
+}
+
 module.exports = Util;
