@@ -32,7 +32,4 @@ router.post("/update/", utilities.checkLogin, regValidate.changeInformationRules
 // Route to update account password 
 router.post("/changepassword/", utilities.checkLogin, regValidate.changePasswordRules(), regValidate.checkPassowordData , utilities.handleErrors(accountController.updateAccountPassword));
 
-// Route to update account password 
-router.post("/changepassword/", utilities.checkLogin, regValidate.changePasswordRules(), regValidate.checkPassowordData , utilities.handleErrors(accountController.updateAccountPassword));
-
 module.exports = router;

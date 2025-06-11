@@ -104,7 +104,8 @@ async function accountLogin(req, res) {
 	return
 	}
 	try {
-	 if (await bcrypt.compare(account_password, accountData.account_password)) {
+		const match = await bcrypt.compare(account_password, accountData.account_password)
+	 if (match) {
 		delete accountData.account_password
 		const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 })
 		if(process.env.NODE_ENV === 'development') {
@@ -114,9 +115,17 @@ async function accountLogin(req, res) {
 			res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 })
 		}
 	 	return res.redirect("/account/")
+	}else{
+		req.flash("notice", "Incorrect password, please try again")
+		res.status(401).render("account/login", {
+		title: "Login",
+		nav,
+		login,
+		errors: null,
+		account_email
+		})
 	}
-	const match = await bcrypt.compare(account_password, accountData.account_password)
-	console.log("Do they match?", match)
+	//console.log("Do they match?", match)
 	} catch (error) {
 		return new Error('Access Forbidden')
 	}
@@ -209,8 +218,8 @@ async function updateAccountInfomation(req, res) {
 * *************************************** */
 async function updateAccountPassword(req, res) {
 	let nav = await utilities.getNav()
-	const login =  utilities.Login(getAccountById)
 	const getAccountById = await accountModel.getAccountById(res.locals.accountData.account_id)
+	const login =  utilities.Login(getAccountById)
 	const { account_password } = req.body
 	const {account_id} = getAccountById
 	//const { account_id, account_password,} = getAccountById
