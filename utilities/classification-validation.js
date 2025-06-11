@@ -32,8 +32,10 @@ validate.checkClassData = async (req, res, next) => {
     errors = validationResult(req)
     if (!errors.isEmpty()) {
       let nav = await utilities.getNav()
+      const login =  utilities.Login(res.locals.accountData)
       res.render("inventory/add-classification", {
         errors,
+        login,
         title: "Add New Classification",
         nav,
         classification_name,

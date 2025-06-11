@@ -1,3 +1,4 @@
+const { body } = require("express-validator")
 const invModel = require("../models/inventory-model")
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
@@ -158,7 +159,9 @@ Util.Login = function (accountData=null) {
     let login = '<div id="tools">'
     if (accountData == null) {
         login += '<a href="\/account\/login" title="Click to login">My Account</a>'
+        console.log("NO logged in");
     } else {
+        console.log("logged in" + accountData.account_firstname)
         login += `<a href="/account" title="Welcome">Welcome ${accountData.account_firstname} </a>`
         login += '<a href="/account/logout" title="Logout"> Logout</a>'
     }
@@ -166,17 +169,42 @@ Util.Login = function (accountData=null) {
     return login
 }
 
+/* ************************
+ * Constructs the Invenotry management section 
+ ************************** */
+Util.inventoryManagement = function (accountData=null) {
+    let invManagement = ""
+    if (accountData.account_type == "Admin" || accountData.account_type == "Employee" ) {
+        invManagement += '<h3>Inventory Management</h3>'
+        invManagement += '<p><a href="/inv" title="Manage inventory">Manage Inventory</a></p>'
+    }
+    return invManagement
+}
+
 /* ****************************************
  *  Check Login
  * ************************************ */
 Util.checkLogin = (req, res, next) => {
-  if (res.locals.loggedin) {
-    next()
+    if (res.locals.loggedin) {
+        next()
+    } else {
+        req.flash("notice", "Please log in.")
+        return res.redirect("/account/login")
+  }
+}
+
+ /* ****************************************
+ *  Get user ID
+ * ************************************ */
+ Util.getUserId = (accountData) => {
+  if (accountData) {
+    return accountData.account_id
   } else {
     req.flash("notice", "Please log in.")
     return res.redirect("/account/login")
   }
  }
+
 
  /* ****************************************
 * Middleware give AuthZ to inventory
@@ -199,5 +227,7 @@ Util.checkAcountType = (req, res, next) => {
 	})
   } 
 }
+
+
 
 module.exports = Util;

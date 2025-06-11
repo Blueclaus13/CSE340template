@@ -11,10 +11,12 @@ invCont.buildByClassificationId = async function (req, res, next) {
   const data = await invModel.getInventoryByClassificationId(classification_id)
   const grid = await utilities.buildClassificationGrid(data)
   let nav = await utilities.getNav()
+  const login =  utilities.Login(res.locals.accountData)
   const className = data[0].classification_name
   res.render("./inventory/classification", {
     title: className + " vehicles",
     nav,
+	login,
     grid,
   })
 };
@@ -27,10 +29,12 @@ invCont.buildDetailsId = async function (req, res, next) {
   const data = await invModel.getCarDetails(classification_id)
   const grid = await utilities.buildDetailsById(data)
   let nav = await utilities.getNav()
+  const login =  utilities.Login(res.locals.accountData)
   const className = data.inv_year + ' ' + data.inv_make + ' ' + data.inv_model
   res.render("./inventory/classification", {
     title: className,
     nav,
+	login,
     grid,
   })
 }
@@ -42,22 +46,26 @@ invCont.buildError = async function (req, res, next) {
   const data = await invModel.error() 
   const message = await utilities.buildErrorMessage(data)
   let nav = await utilities.getNav()
+  const login =  utilities.Login(res.locals.accountData)
   res.render("./errors/error", {
     title: data,
     nav,
+	login,
     message,
   })
 }
 
-/* ***************************Add commentMore actions
+/* ***************************
  *  Build management view
  * ************************** */
 invCont.buildManagement = async function (req, res, next) {
   let nav = await utilities.getNav()
+  const login =  utilities.Login(res.locals.accountData)
   const classificationList = await utilities.buildClassificationList()
   res.render("./inventory/management", {
     title: "Veicle Management",
     nav,
+	login,
     errors: null,
     classificationSelect: classificationList
   })
@@ -65,9 +73,11 @@ invCont.buildManagement = async function (req, res, next) {
 
 invCont.addClassification = async function (req, res, next) {
   let nav = await utilities.getNav()
+  const login =  utilities.Login(res.locals.accountData)
   res.render("./inventory/add-classification", {
     title: "Add New Classification",
     nav,
+	login,
     errors: null
   })
 }
@@ -84,6 +94,8 @@ invCont.addNewClassification = async function (req, res) {
   )
 
 	if (classResult) {
+		const login =  utilities.Login(res.locals.accountData)
+		const classificationList = await utilities.buildClassificationList()
 		req.flash(
 		"notice",
 		`The ${classification_name} classification was successfully added.`
@@ -91,13 +103,17 @@ invCont.addNewClassification = async function (req, res) {
 		res.status(201).render("./inventory/management", {
 		title: "Veicle Management",
 		nav,
-		errors: null
+		login,
+		errors: null,
+		classificationSelect: classificationList
 		})
 	} else {
+		const login =  utilities.Login(res.locals.accountData)
 		req.flash("notice", "Sorry, new classification failed.")
 		res.status(501).render("./inventory/add-classification", {
 		title: "Add New Classification",
 		nav,
+		login,
 		errors: null,
 		})
 	}
@@ -105,10 +121,12 @@ invCont.addNewClassification = async function (req, res) {
 
 invCont.addInventory = async function (req, res, next) {
   let nav = await utilities.getNav()
+  const login =  utilities.Login(res.locals.accountData)
   const classificationList = await utilities.buildClassificationList()
   res.render("./inventory/add-inventory", {
     title: "Add New Vehicle",
     nav,
+	login,
     classificationList,
     errors: null
   })
@@ -119,6 +137,7 @@ invCont.addInventory = async function (req, res, next) {
 * *************************************** */
 invCont.addNewVehicle = async function (req, res) {
 	let nav = await utilities.getNav()
+	const login =  utilities.Login(res.locals.accountData)
 	const { classification_id, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color } = req.body
   const classificationList = await utilities.buildClassificationList()
 
@@ -134,6 +153,7 @@ invCont.addNewVehicle = async function (req, res) {
 		res.status(201).render("./inventory/management", {
 		title: "Veicle Management",
 		nav,
+		login,
 		errors: null,
     classificationSelect: classificationList
 		})
@@ -142,6 +162,7 @@ invCont.addNewVehicle = async function (req, res) {
 		res.status(501).render("./inventory/add-inventory", {
 		title: "Add New Vehicle",
 		nav,
+		login,
     classificationSelect: classificationList,
 		errors: null,
 		})

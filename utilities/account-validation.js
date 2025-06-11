@@ -93,11 +93,11 @@ validate.loginRules = () => {
         .trim()
         .notEmpty()
         .withMessage("Invalid passowrd")
-		.custom(async (account_email) => {
-			const emailExists = await accountModel.checkExistingEmail(account_email)
-			if (emailExists){
-			  throw new Error("Email exists. Please log in or use different email")
-			}}),
+        .custom(async (account_email) => {
+          const emailExists = await accountModel.checkExistingEmail(account_email)
+          if (emailExists){
+            throw new Error("Email exists. Please log in or use different email")
+          }}),
     ]
 }
 /* ******************************
@@ -119,5 +119,97 @@ validate.checkLoginData = async (req, res, next) => {
     }
     next()
 }
+
+/*  **********************************
+*  Change user information Data Validation Rules
+* ********************************* */
+validate.changeInformationRules = () => {
+	return [
+		body("account_firstname")
+		.trim()
+		.escape()
+		.notEmpty()
+		.isLength({ min: 2 })
+		.withMessage("Please enter your first name"),
+
+		body("account_lastname")
+		.trim()
+		.escape()
+		.notEmpty()
+		.isLength({ min: 2 })
+		.withMessage("Please enter your last name"),
+		// valid email is required and cannot already exist in the DB
+		body("account_email")
+		.trim()
+		.escape()
+		.notEmpty()
+		.isEmail()
+		.normalizeEmail() // refer to validator.js docs
+		.withMessage("A valid email is required."),
+	]
+}
+
+/* ******************************
+ * Check update data and return errors or continue to update
+ * ***************************** */
+validate.checkUpdateData = async (req, res, next) => {
+    const { account_firstname, account_lastname, account_email } = req.body
+    let errors = []
+    errors = validationResult(req)
+    if (!errors.isEmpty()) {
+		let nav = await utilities.getNav()
+		const login =  utilities.Login(req.body)
+      	res.render("account/update-account", {
+			title: "Edit Account",
+			errors,
+			nav,
+			login,
+			account_firstname,
+			account_lastname,
+			account_email,
+      	})
+      	return
+    }
+    next()
+  }
+	
+/*  **********************************
+*  Change user password - Data Validation Rules
+* ********************************* */
+validate.changePasswordRules = () => {
+	return [
+		// password is required
+		body("account_password")
+		.trim()
+		.notEmpty()
+		.isStrongPassword({
+			minLength: 12,
+			minLowercase: 1,
+			minUppercase: 1,
+			minNumbers: 1,
+			minSymbols: 1,
+		})
+		.withMessage("Password does not meet requirements."),		
+	]
+}
+/* ******************************
+ * Check update password and return errors or continue to update
+ * ***************************** */
+validate.checkPassowordData = async (req, res, next) => {
+    let errors = []
+    errors = validationResult(req)
+    if (!errors.isEmpty()) {
+		let nav = await utilities.getNav()
+		const login =  utilities.Login(req.body)
+      	res.render("account/update-account", {
+			title: "Edit Account",
+			errors,
+			nav,
+			login,
+      	})
+      	return
+    }
+    next()
+  }
 
 module.exports = validate
