@@ -173,7 +173,7 @@ label, input, button, span{
   border-radius: 2%;
   border: none;
 }
-button {
+button, .link {
   margin-top: 3%;
   padding: 3% 12%;
   color: #00698B;
@@ -181,6 +181,25 @@ button {
   background-color: whitesmoke;
   border-radius: 15px;
 }
+.link{
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+/* #welcome{
+
+} */
+ .sub-title::before {
+  content: ' ';
+  display: inline-block;
+  background-image: url('../images/site/arrow.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  vertical-align: middle;
+ }
 label {
   padding-left: 0;
   padding-bottom: 0;
@@ -193,7 +212,7 @@ input {
 textarea{
   width: 100%;
 }
-button:hover, #pswdBtn:hover {
+button:hover, #pswdBtn:hover, .link:hover {
   cursor:pointer;
   background-color:  rgb(153, 171, 182);
   color: yellow;
@@ -201,6 +220,10 @@ button:hover, #pswdBtn:hover {
 button, #no-account {
   margin-top: 4%;
   align-self: center;
+}
+.button-container{
+  width: 300px;
+  margin: 5%;
 }
 #sign-up {
   color: white;

@@ -1,5 +1,6 @@
 const { body } = require("express-validator")
 const invModel = require("../models/inventory-model")
+const accountM = require("../models/account-model")
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
 const Util = {}
@@ -129,6 +130,20 @@ Util.buildClassificationList = async function (classification_id = null) {
     return classificationList
   }
 
+Util.buildUsersList = async function (current_id) {
+  let data = await accountM.getUsers()
+  // console.table(data)
+  let usersList = data.filter( user => user.account_id !== current_id)
+  .map(row =>({
+    id: row.account_id,
+    firstName: row.account_firstname,
+    lastName: row.account_lastname,
+    email: row.account_email,
+    accountType: row.account_type
+  }))
+  return usersList;
+}
+
   /* ****************************************
 * Middleware to check token validity
 **************************************** */
@@ -175,10 +190,22 @@ Util.Login = function (accountData=null) {
 Util.inventoryManagement = function (accountData=null) {
     let invManagement = ""
     if (accountData.account_type == "Admin" || accountData.account_type == "Employee" ) {
-        invManagement += '<h3>Inventory Management</h3>'
-        invManagement += '<p><a href="/inv" title="Manage inventory">Manage Inventory</a></p>'
+        invManagement += '<h3 class ="sub-title" >Inventory Management</h3>'
+        invManagement += '<div class="button-container"><a class ="link" href="/inv" title="Manage inventory">Manage Inventory</a></div>'
     }
     return invManagement
+}
+
+/* ************************
+ * Constructs the User management section 
+ ************************** */
+Util.userManagement = function (accountData=null) {
+    let userManagement = ""
+    if (accountData.account_type == "Admin") {
+        userManagement += '<h3 class ="sub-title" >User Management</h3>'
+        userManagement += '<div class="button-container"><a class ="link" href="/account/inv" title="Manage users inventory">Manage Users Inventory</a></div>'
+    }
+    return userManagement
 }
 
 /* ****************************************

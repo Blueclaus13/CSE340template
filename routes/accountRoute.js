@@ -26,10 +26,21 @@ router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.a
 // Route to account information view
 router.get("/update/:account_id", utilities.checkLogin, utilities.handleErrors(accountController.accountInfomation));
 
+//Route to manager for editing user account
+router.get("/manager-update/:account_id", utilities.checkAcountType, utilities.checkLogin, utilities.handleErrors(accountController.userInformation));
+
 // Route to update account information 
 router.post("/update/", utilities.checkLogin, regValidate.changeInformationRules(), regValidate.checkUpdateData, utilities.handleErrors(accountController.updateAccountInfomation));
 
 // Route to update account password 
 router.post("/changepassword/", utilities.checkLogin, regValidate.changePasswordRules(), regValidate.checkPassowordData , utilities.handleErrors(accountController.updateAccountPassword));
 
+//Rout to access users management
+router.get("/inv",utilities.checkAcountType, utilities.checkLogin, utilities.handleErrors(accountController.buildUserManagement));
+
+// Route to delete (user) information
+router.get("/delete/:user_id",  utilities.checkLogin, utilities.checkAcountType, utilities.handleErrors(accountController.deleteView));
+
+// Route to delete (user) information
+router.post("/delete/", utilities.checkLogin,  utilities.checkAcountType, utilities.checkLogin, utilities.handleErrors(accountController.deleteUser))
 module.exports = router;

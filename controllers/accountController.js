@@ -135,17 +135,35 @@ async function accountManagment(req, res, next) {
 	let nav = await utilities.getNav()
 	const login =  utilities.Login(res.locals.accountData)
 	const invManagement = utilities.inventoryManagement(res.locals.accountData)
+	const userManagement = utilities.userManagement(res.locals.accountData)
 	const accountId = utilities.getUserId(res.locals.accountData)
 	const name = res.locals.accountData.account_firstname
 	res.render("account/account-management", {
-		title: "Account  Management",
+		title: "Account Management",
 		nav,
 		login, 
 		name,
 		invManagement,
+		userManagement,
 		accountId,
 		errors: null,
     })
+}
+
+/* ***************************
+ *  Build Users management view
+ * ************************** */
+async function buildUserManagement(req, res, next) {
+  let nav = await utilities.getNav()
+  const login =  utilities.Login(res.locals.accountData)
+  const usersList = await utilities.buildUsersList(res.locals.accountData.account_id)
+  res.render("account/user-management", {
+    title: "Users Management",
+    nav,
+	login,
+    errors: null,
+    users: usersList
+  })
 }
 
 /* ****************************************
@@ -159,6 +177,75 @@ async function logout(req, res) {
 		console.log(`User logout successfully`)
 		res.status(201).redirect("/")
 	} 
+}
+
+/* ****************************************
+*  Manager Update-Account information view
+* *************************************** */
+async function userInformation(req, res) {
+	let nav = await utilities.getNav()
+	const getUserAccountById = await accountModel.getAccountById(req.params.account_id)
+	const login =  utilities.Login(res.locals.accountData)
+	const { account_id, account_firstname, account_lastname, account_email, account_type} = getUserAccountById
+	//console.log("Account type" + account_type)
+	if (getUserAccountById) {
+		res.render("account/manager-update-account", {
+			title: "Edit Account",
+			nav,
+			errors: null,
+			login,
+			account_id, 
+			account_firstname, 
+			account_lastname, 
+			account_email,
+			account_type
+		})
+	} 
+}
+
+/* **********************************
+* Build delete view
+************************************ */
+async function deleteView(req, res) {
+	const userId = parseInt(req.params.user_id)
+	let nav = await utilities.getNav()
+	const login =  utilities.Login(res.locals.accountData)
+	const getUserAccountById = await accountModel.getAccountById(userId)
+	const { account_firstname, account_lastname, account_email, account_type, account_id} = getUserAccountById
+	const titleName = `${account_firstname} ${account_email}`
+	res.render("account/delete-confirmation", {
+		title: "Delete " + titleName,
+		nav,
+		login,
+		errors: null,
+		account_firstname, 
+		account_lastname, 
+		account_email,
+		account_type,
+		account_id
+	})
+}
+
+/* ****************************************
+*  Delete User
+* *************************************** */
+async function deleteUser(req, res) {
+	const {account_firstname, account_email, account_id } = req.body
+	const userId = parseInt(account_id)
+	
+	const titleName = `${account_firstname} ${account_email}`
+	const deleteResult = await accountModel.deleteUser(userId)
+
+	if (deleteResult) {
+		req.flash(
+			"notice",
+			`The ${titleName} was successfully deleted.`
+		)
+		res.redirect("/account/inv")
+	} else {
+		req.flash("notice", "Sorry, the deletion failed.")
+		res.redirect(`/account/delete/${userId}`)
+	}
 }
 
 /* ****************************************
@@ -247,4 +334,4 @@ async function updateAccountPassword(req, res) {
 	}
 }
 
-module.exports = { buildLogin, buildRegister, registerAccount, accountManagment, accountLogin, logout, accountInfomation, updateAccountInfomation, updateAccountPassword }
+module.exports = { buildLogin, buildRegister, registerAccount, accountManagment, accountLogin, logout, accountInfomation, updateAccountInfomation, updateAccountPassword, buildUserManagement, userInformation, deleteView, deleteUser }

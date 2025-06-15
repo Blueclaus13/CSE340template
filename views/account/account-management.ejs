@@ -20,9 +20,11 @@
 
     <!-- Your account display -->
 <div class="account-management">
-    <h2>Welcome <%- name %></h2>
+    <h2 id="welcome">Welcome <%- name %></h2>
     <p>You're logged in</p>
-    <a href="/account/update/<%- accountId %>" title="Edit your information">Edit account information</a>
+    <div class="button-container"><a class ="link" href="/account/update/<%- accountId %>" title="Edit your information">Edit account information</a></div>
 </div>
 
 <%- invManagement %>
+
+<%- userManagement %>

@@ -39,17 +39,31 @@ async function getAccountByEmail (account_email) {
   }
 }
 
-/* *****************************Add commentMore actions
+/* *****************************
 * Return account data using account_id
 * ***************************** */
 async function getAccountById (account_id) {
   try {
     const result = await pool.query(
-      'SELECT account_id, account_firstname, account_lastname, account_email, account_password FROM account WHERE account_id = $1',
+      'SELECT account_id, account_firstname, account_lastname, account_email, account_password, account_type FROM account WHERE account_id = $1',
       [account_id])
     return result.rows[0]
   } catch (error) {
     return new Error("No matching email found")
+  }
+}
+
+
+/* *****************************
+* Return account data using account_id
+* ***************************** */
+async function getUsers () {
+  try {
+    const result = await pool.query(
+      'SELECT account_id, account_firstname, account_lastname, account_email, account_type FROM account')
+    return result.rows
+  } catch (error) {
+    return new Error("No users in account table")
   }
 }
 
@@ -77,5 +91,16 @@ async function updateAccontPwd(account_id, account_password) {
   }
 }
 
-
-  module.exports = {registerAccount, checkExistingEmail, getAccountByEmail, getAccountById, updateAccontInformation, updateAccontPwd};
+/* ***************************
+ *  Delete user
+ * ************************** */
+async function deleteUser(user_id) {
+  try {
+    const sql = 'DELETE FROM public.account WHERE account_id = $1'
+    const data = await pool.query(sql, [user_id])
+    return data
+  } catch (error) {
+    new Error("Delete User error")
+  }
+}
+  module.exports = {registerAccount, checkExistingEmail, getAccountByEmail, getAccountById, updateAccontInformation, updateAccontPwd, getUsers, deleteUser};

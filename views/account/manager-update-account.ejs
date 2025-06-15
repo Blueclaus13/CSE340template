@@ -1,0 +1,52 @@
+<!-- if statement, if title then display title, else redirect -->
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+        res.redirect('/')
+    } %>
+    
+    <!-- message -->
+    <%- messages() %>
+
+<% if (errors) { %>
+    <ul class="notice">
+    <% errors.array().forEach(error => { %>
+        <% if (error.msg != "Invalid value") { %>
+            <li><%= error.msg %></li>
+        <% } %>
+    <%  }) %>
+    </ul>
+    <% } %>
+  
+<div class="button-container"><a class ="link" href="/account/inv" title="Users table">Back to users Table</a></div>
+<!-- Update display -->
+<div class="update-account">
+    <form id="accountUpdate" action="/account/update" method="post">
+        <!-- <h2>Edit Account</h2> -->
+        
+        <label for="account_firstname" class="register">First name:</label>
+        <input type="text" class="register" name="account_firstname" id="account_firstname" placeholder="Your name" required value="<%= locals.account_firstname %>">
+        
+        <label for="account_lastname" class="register">Last name:</label>
+        <input type="text" class="register" name="account_lastname" id="account_lastname" placeholder="Your last name" required value="<%= locals.account_lastname %>">
+        
+        <label for="account_email" class="register">Email:</label>
+        <input type="email" class="register" name="account_email" id="account_email" placeholder="email@domain.com" required value="<%= locals.account_email %>">
+
+        <label for="account_type" class="register">Account Type:</label>
+        <select name="account_type" id="account_type">
+            <option value="Admin" <%= account_type === 'Admin' ? 'selected' : '' %>>Admin</option>
+            <option value="Client" <%= account_type === 'Client' ? 'selected' : '' %>>Client</option>
+            <option value="Employee" <%= account_type === 'Employee' ? 'selected' : '' %>>Employee</option>
+        </select>
+        
+        <button type="submit">Update</button>
+        
+        <input type="hidden" name="account_id"
+        <% if(locals.account_id) {%> value="<%= locals.account_id %>"
+        <% } %>>
+        
+    </form>  
+</div>
+
+<div class="button-container"><a class ="link" href="/account/delete/<%=locals.account_id%>" title="button to Delete user">Delete User</a></div>

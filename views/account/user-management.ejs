@@ -1,0 +1,32 @@
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
+
+<%- messages() %>
+
+<table id="users-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Email</th>
+      <th>Account Type</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% users.forEach(user => { %>
+      <tr>
+        <td><%= user.id %></td>
+        <td><%= user.firstName %></td>
+        <td><%= user.lastName %></td>
+        <td><%= user.email %></td>
+        <td><%= user.accountType %></td>
+        <td><a  href="/account/manager-update/<%= user.id%>" title="Edit user information">Edit user</a></td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
