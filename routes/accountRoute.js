@@ -29,6 +29,9 @@ router.get("/update/:account_id", utilities.checkLogin, utilities.handleErrors(a
 //Route to manager for editing user account
 router.get("/manager-update/:account_id", utilities.checkAcountType, utilities.checkLogin, utilities.handleErrors(accountController.userInformation));
 
+// Route for manager to update account information 
+router.post("/manager-update/", utilities.checkAcountType, utilities.checkLogin, regValidate.changeInformationRules(), regValidate.checkUpdateData, utilities.handleErrors(accountController.updateUserIformation));
+
 // Route to update account information 
 router.post("/update/", utilities.checkLogin, regValidate.changeInformationRules(), regValidate.checkUpdateData, utilities.handleErrors(accountController.updateAccountInfomation));
 

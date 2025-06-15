@@ -300,7 +300,38 @@ async function updateAccountInfomation(req, res) {
 	}
 }
 
-/* ****************************************Add commentMore actions
+/* ****************************************
+*  Update account information
+* *************************************** */
+async function updateUserIformation(req, res) {
+	let nav = await utilities.getNav()
+	const { account_id, account_firstname, account_lastname, account_email, account_type} = req.body
+	const updateResult = await accountModel.updateUserIformation(
+		account_id, account_firstname, account_lastname, account_email, account_type)
+	const login =  utilities.Login(req.body)
+
+	if (updateResult) {
+		req.flash(
+		"notice",
+		`Congratulations, your information has been updated.`
+		)
+		res.status(201).redirect("/account/")
+	} else {
+		res.status(501).render("./account/update-account", {
+			title: "Edit Account",
+			nav,
+			errors: null,
+			login,
+			account_id, 
+			account_firstname, 
+			account_lastname, 
+			account_email,
+			account_type
+		})
+	}
+}
+
+/* ****************************************
 *  Update account password
 * *************************************** */
 async function updateAccountPassword(req, res) {
@@ -334,4 +365,4 @@ async function updateAccountPassword(req, res) {
 	}
 }
 
-module.exports = { buildLogin, buildRegister, registerAccount, accountManagment, accountLogin, logout, accountInfomation, updateAccountInfomation, updateAccountPassword, buildUserManagement, userInformation, deleteView, deleteUser }
+module.exports = { buildLogin, buildRegister, registerAccount, accountManagment, accountLogin, logout, accountInfomation, updateAccountInfomation, updateAccountPassword, buildUserManagement, userInformation, deleteView, deleteUser, updateUserIformation }
